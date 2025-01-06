@@ -3,11 +3,15 @@ services:
   - docker
 
 before_install:
+  # Cài đặt các phần phụ thuộc và xây dựng Docker image
   - docker build -t haisoftwarevn/docker-react -f Dockerfile.dev . 
-  - if gem list gem-wrappers -i; then gem uninstall gem-wrappers --force; fi
+
+  # Cập nhật gem-wrappers
+  - gem uninstall gem-wrappers || true  # Bỏ qua lỗi nếu không thể gỡ cài đặt
   - gem install gem-wrappers
 
 script:
+  # Chạy các kiểm tra bằng Docker
   - docker run -e CI=true haisoftwarevn/docker-react npm run test
 
 deploy:
