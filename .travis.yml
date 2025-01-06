@@ -4,9 +4,9 @@ services:
 
 before_install:
   - docker build -t haisoftwarevn/docker-react -f Dockerfile.dev . 
-  - gem uninstall gem-wrappers 
+  - if gem list gem-wrappers -i; then gem uninstall gem-wrappers --force; fi
   - gem install gem-wrappers
-  
+
 script:
   - docker run -e CI=true haisoftwarevn/docker-react npm run test
 
