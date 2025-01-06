@@ -3,15 +3,12 @@ services:
   - docker
 
 before_install:
-  # Cài đặt các phần phụ thuộc và xây dựng Docker image
-  - docker build -t haisoftwarevn/docker-react -f Dockerfile.dev . 
-
-  # Cập nhật gem-wrappers
-  - gem uninstall gem-wrappers || true  # Bỏ qua lỗi nếu không thể gỡ cài đặt
-  - gem install gem-wrappers
+  - docker build -t haisoftwarevn/docker-react -f Dockerfile.dev .
+  - gem uninstall gem-wrappers || true
+  - gem install nokogiri --platform=ruby
+  - bundle config set force_ruby_platform true
 
 script:
-  # Chạy các kiểm tra bằng Docker
   - docker run -e CI=true haisoftwarevn/docker-react npm run test
 
 deploy:
